@@ -153,9 +153,51 @@ fetchGeocode.addEventListener('click', displayGeocode);
 
 
 
+// function geocodeAddress() {
+//   const address = document.getElementById("address").value;
+//   if (!address || address.length < 3) {
+//     console.log("The address string is too short. Enter at least three symbols");
+//     return;
+//   }
+//   myAPIKey = 'ae8fb1509dd84506babaa78221bde1bc';
+//   const geocodingUrl = `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(address)}&apiKey=${myAPIKey}`;
 
+//   // call Geocoding API - https://www.geoapify.com/geocoding-api/
+//   fetch(geocodingUrl).then(result => result.json())
+//     .then(featureCollection => {
+//       console.log(featureCollection);
+//     });
+// }
 
+function geocodeAddress() {
+  const address = document.getElementById("address").value;
+  if (!address || address.length < 3) {
+    document.getElementById("status").textContent = "The address string is too short. Enter at least three symbols";
+    return;
+  }
 
+  const geocodingUrl = `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(address)}&apiKey=${myAPIKey}`;
+
+  // call Geocoding API - https://www.geoapify.com/geocoding-api/
+  fetch(geocodingUrl).then(result => result.json())
+    .then(featureCollection => {
+      if (featureCollection.features.length === 0) {
+        document.getElementById("status").textContent = "The address is not found";
+        return;
+      }
+
+      const foundAddress = featureCollection.features[0];
+      document.getElementById("name").value = foundAddress.properties.name || '';
+      document.getElementById("house-number").value = foundAddress.properties.housenumber || '';
+      document.getElementById("street").value = foundAddress.properties.street || '';
+      document.getElementById("postcode").value = foundAddress.properties.postcode || '';
+      document.getElementById("city").value = foundAddress.properties.city || '';
+      document.getElementById("state").value = foundAddress.properties.state || '';
+      document.getElementById("country").value = foundAddress.properties.country || '';
+
+      document.getElementById("status").textContent = `Found address: ${foundAddress.properties.formatted}`;
+    });
+}
 
 // fetch('https://api.github.com/orgs/twitter/repos')
 //   .then(function (response) {
