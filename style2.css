@@ -11,6 +11,15 @@ body,
   flex-direction: row;
 }
 
+ /* added to center the title */
+header {
+  display: flex;        
+  justify-content: center;  
+  align-items: center;      
+  /* height: 100vh;            */
+}
+
+
 .address-line {
     padding: 10px;
     display: flex;
