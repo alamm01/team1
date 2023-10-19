@@ -64,3 +64,30 @@ function geocodeAddress() {
 	  map.panTo(new L.LatLng(foundAddress.properties.lat, foundAddress.properties.lon));
     });
 }
+// function to log user live data
+function logUserData(adress) {
+  const logList = getElementById("log-list");
+  const logEntry = createElement("li");
+  const currentTime = new
+  Date().toLocaleString();
+  logEntry.textcontent = 'Address: $ {address}, Searched at: ${currentTime}';
+  logList.appendChild(logEntry);
+}
+// function to perform geocoding & log user data
+function geocodeAddress() {
+  const address = document.getElementById("address").value;
+  // perform geocoding here
+
+  // log user data
+  logUserData(address);
+
+
+  // finish geocoding here
+
+  // attach geocodeAddress function to the button click event
+  document.querySelector("button").addEventListener("click", geocodeAddress);
+
+
+  
+
+}
