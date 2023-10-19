@@ -50,7 +50,9 @@ function geocodeAddress() {
       }
 
       const foundAddress = featureCollection.features[0];
-      getWeather(foundAddress) 
+      // console.log(foundAddress.properties.address_line2);
+      var address = foundAddress.properties.address_line2;
+      getWeather(address); 
       getPetfriendlyplace(foundAddress.geometry.coordinates[1], foundAddress.geometry.coordinates[0]);
 
       document.getElementById("status").textContent = `Found address: ${foundAddress.properties.formatted}`;
@@ -59,7 +61,7 @@ function geocodeAddress() {
 	  map.panTo(new L.LatLng(foundAddress.properties.lat, foundAddress.properties.lon));
     });
 
-  addAddressToRecent(document.getElementById('address').value); //delete me
+  addAddressToRecent(document.getElementById('address').value); 
 }
 
 function getPetfriendlyplace(lat, long){
@@ -87,34 +89,40 @@ function getPetfriendlyplace(lat, long){
 
 };
 
-function getWeather(foundAddress) {
-  // var apiKey = '3aff5737440b30c8e962f8a23c414db4';
+function getWeather(address) {
+  var apiKey = '3aff5737440b30c8e962f8a23c414db4';
   // var cityName = 'Minneapolis'
-  // var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${address}&appid=${apiKey}`
-  // // api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+  var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${address}&appid=${apiKey}`
 
-  // fetch(requestUrl)
-  //     .then(function (response) {
-  //         return response.json();
-  //     })
-  //     .then(function (data) {
-  //         console.log(data)
-  //         //Loop over the data to generate a table, each table row will have a link to the repo url
-  //         for (var i = 0; i < data.length; i++) {
-  //             // Creating elements, tablerow, tabledata, and anchor
-  //             var createTableRow = document.createElement('tr');
-  //             var tableData = document.createElement('td');
-  //             var link = document.createElement('a');
+  fetch(requestUrl)
+  .then(function(response) {
+      // console.log(response.json());
+      return response.json();
+  })
+  .then(function(data) {
+      // Extract relevant weather information
+      console.log(data);
+      var temperature = (data.main.temp - 273.15).toFixed(2);  // Convert Kelvin to Celsius
+      var description = data.weather[0].description;
+      var humidity = data.main.humidity;
+      var windSpeed = data.wind.speed;
 
-  //             // Setting the text of link and the href of the link
-  //             link.textContent = data[i].html_url;
-  //             link.href = data[i].html_url;
+      // Construct a nice format to display
+      var weatherContent = `
+          <h2>Weather in ${address}</h2>
+          <p><strong>Temperature:</strong> ${temperature}°C</p>
+          <p><strong>Description:</strong> ${description}</p>
+          <p><strong>Humidity:</strong> ${humidity}%</p>
+          <p><strong>Wind Speed:</strong> ${windSpeed} m/s</p>
+      `;
 
-  //             tableData.appendChild(link);
-  //             createTableRow.appendChild(tableData);
-  //             tableBodyWeather.appendChild(createTableRow);
-  //         }
-  //     });
+      // Update the web page with the weather information
+      document.getElementById('weather-info').innerHTML = weatherContent;
+  })
+  .catch(function(error) {
+      console.log('Error fetching weather data:', error);
+  });
+
 }
 
 
