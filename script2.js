@@ -70,7 +70,8 @@ function getPetfriendlyplace(lat, long){
     .then(response => response.json())
     .then(result => {console.log(result)
 
-    
+      var markersGroup = L.featureGroup().addTo(map);
+
       for (var i = 0; i<result.features.length; i++){
         marker = L.marker(new L.LatLng(result.features[i].properties.lat, result.features[i].properties.lon), {title:result.features[i].properties.name}).addTo(map)
 
@@ -83,7 +84,11 @@ function getPetfriendlyplace(lat, long){
 
         marker.bindPopup(popupContent);
 
+        markersGroup.addLayer(marker);
+
       };
+
+      map.fitBounds(markersGroup.getBounds());
     })
     .catch(error => console.log('error', error));
 
