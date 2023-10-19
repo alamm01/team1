@@ -1,4 +1,5 @@
 // Create a Leaflet map
+//need to find out the currenlt location of the user and then use those coordinate
 const map = L.map('my-map').setView([48.1500327, 11.5753989], 10);
 // Marker to save the position of found address
 let marker;
@@ -50,6 +51,9 @@ function geocodeAddress() {
       }
 
       const foundAddress = featureCollection.features[0];
+      
+      test(foundAddress.geometry.coordinates[1], foundAddress.geometry.coordinates[0]);
+
       document.getElementById("name").value = foundAddress.properties.name || '';
       document.getElementById("house-number").value = foundAddress.properties.housenumber || '';
       document.getElementById("street").value = foundAddress.properties.street || '';
@@ -64,3 +68,37 @@ function geocodeAddress() {
 	  map.panTo(new L.LatLng(foundAddress.properties.lat, foundAddress.properties.lon));
     });
 }
+
+
+// https://api.geoapify.com/v2/places?PARAMS
+// filter=circle:-87.770231,41.878968,5000
+
+function test(lat, long){
+
+  // -87.770231,41.878968,5000
+
+  fetch(`https://api.geoapify.com/v2/places?categories=pet&filter=circle:${long},${lat},5000&limit=20&apiKey=ae8fb1509dd84506babaa78221bde1bc`)
+    .then(response => response.json())
+    .then(result => {console.log(result)
+
+      
+    
+      for (var i = 0; i<result.features.length; i++){
+        marker = L.marker(new L.LatLng(result.features[i].properties.lat, result.features[i].properties.lon), {title:result.features[i].properties.name}).addTo(map)
+        .bindPopup(result.features[i].properties.name);
+      
+      
+      };
+    
+    
+    
+    
+    })
+
+
+
+    .catch(error => console.log('error', error));
+
+
+};
+
