@@ -12,36 +12,29 @@
       <h1>Pet Friendly</h1>
     </header>
 
-<div class="main">
-    <div class="controls">
-      <div class="address-line">
-        <input id="address" type="text" placeholder="Enter address to search"><button onclick="geocodeAddress()">Pet Friendly Places</button>
+  <div class="main">
+      <div class="controls">
+        <div class="address-line">
+          <input id="address" type="text" placeholder="Enter address to search"><button onclick="geocodeAddress()">Pet Friendly Places</button>
+        </div>
+        <div class="status">
+          <span id="status">Enter address and press "Pet Friendly Places" button</span>
+        </div>
       </div>
-      <div class="status">
-        <span id="status">Enter address and press "Pet Friendly Places" button</span>
+      <br>
+      <br>
+      <div class="recent-addresses">
+        <h3>Recent Addresses:</h3>
+        <ul id="recent-list"></ul>
       </div>
-      <div class="results">
-            <label for="name">Name:</label>          
-            <input id="name" type="text" readonly />
-            <label for="house-number">House number:</label>          
-            <input id="house-number" type="text" readonly />
-            <label for="street">Street:</label>          
-            <input id="street" type="text" readonly />
-            <label for="postcode">Postcode:</label>          
-            <input id="postcode" type="text" readonly />
-            <label for="city">City:</label>          
-            <input id="city" type="text" readonly />
-            <label for="state">State:</label>          
-            <input id="state" type="text" readonly />
-            <label for="country">Country:</label>          
-            <input id="country" type="text" readonly />
-      </div>
-
-    </div>
-    <div id="my-map"></div>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="script2.js"></script>
+      <div id="my-map"></div>
   </div>
+  <!-- <div class="recent-addresses">
+    <h3>Recent Addresses:</h3>
+    <ul id="recent-list"></ul>
+  </div> -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="script2.js"></script>
+
 </body>
 </html>

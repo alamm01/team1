@@ -32,7 +32,6 @@ function geocodeAddress() {
   const address = document.getElementById("address").value;
   if (!address || address.length < 3) {
     document.getElementById("status").textContent = "The address string is too short. Enter at least three symbols";
-
     return;
   }
 
@@ -52,28 +51,18 @@ function geocodeAddress() {
 
       const foundAddress = featureCollection.features[0];
       getWeather(foundAddress) 
-      test(foundAddress.geometry.coordinates[1], foundAddress.geometry.coordinates[0]);
-
-      document.getElementById("name").value = foundAddress.properties.name || '';
-      document.getElementById("house-number").value = foundAddress.properties.housenumber || '';
-      document.getElementById("street").value = foundAddress.properties.street || '';
-      document.getElementById("postcode").value = foundAddress.properties.postcode || '';
-      document.getElementById("city").value = foundAddress.properties.city || '';
-      document.getElementById("state").value = foundAddress.properties.state || '';
-      document.getElementById("country").value = foundAddress.properties.country || '';
+      getPetfriendlyplace(foundAddress.geometry.coordinates[1], foundAddress.geometry.coordinates[0]);
 
       document.getElementById("status").textContent = `Found address: ${foundAddress.properties.formatted}`;
 
 	  marker = L.marker(new L.LatLng(foundAddress.properties.lat, foundAddress.properties.lon)).addTo(map);
 	  map.panTo(new L.LatLng(foundAddress.properties.lat, foundAddress.properties.lon));
     });
+
+  addAddressToRecent(document.getElementById('address').value); //delete me
 }
 
-
-// https://api.geoapify.com/v2/places?PARAMS
-// filter=circle:-87.770231,41.878968,5000
-
-function test(lat, long){
+function getPetfriendlyplace(lat, long){
 
   fetch(`https://api.geoapify.com/v2/places?categories=pet&filter=circle:${long},${lat},5000&limit=20&apiKey=ae8fb1509dd84506babaa78221bde1bc`)
     .then(response => response.json())
@@ -82,9 +71,7 @@ function test(lat, long){
     
       for (var i = 0; i<result.features.length; i++){
         marker = L.marker(new L.LatLng(result.features[i].properties.lat, result.features[i].properties.lon), {title:result.features[i].properties.name}).addTo(map)
-        // .bindPopup(result.features[i].properties.name);
-        // var popupContent = result.features[i].properties.name + "\n" + result.features[i].properties.address_line2;
-        // marker.bindPopup(popupContent);
+
 
         var name = result.features[i].properties.name;
         var address = result.features[i].properties.address_line2;
@@ -96,9 +83,8 @@ function test(lat, long){
 
       };
     })
-    // console.log(result);
     .catch(error => console.log('error', error));
-    // console.log(result);
+
 };
 
 function getWeather(foundAddress) {
@@ -130,3 +116,43 @@ function getWeather(foundAddress) {
   //         }
   //     });
 }
+
+
+function addAddressToRecent(address) {
+  // Retrieve the recent addresses from localStorage
+  let recentAddresses = JSON.parse(localStorage.getItem('recentAddresses')) || [];
+
+  // Add the new address to the beginning
+  recentAddresses.unshift(address);
+
+  // Limit to 5 recent addresses and save back to localStorage
+  recentAddresses = recentAddresses.slice(0, 5);
+  localStorage.setItem('recentAddresses', JSON.stringify(recentAddresses));
+
+  displayRecentAddresses();
+}
+
+function displayRecentAddresses() {
+  const recentList = document.getElementById('recent-list');
+  const recentAddresses = JSON.parse(localStorage.getItem('recentAddresses')) || [];
+  
+  // Clear any existing list
+  recentList.innerHTML = '';
+
+  // Populate the list with recent addresses
+  recentAddresses.forEach(address => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.textContent = address;
+      a.href = "#";
+      a.onclick = function() {
+          document.getElementById('address').value = address;
+          geocodeAddress();
+      }
+      li.appendChild(a);
+      recentList.appendChild(li);
+  });
+}
+
+// Call the function when the page loads to display any saved addresses
+displayRecentAddresses();
