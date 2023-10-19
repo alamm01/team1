@@ -1,6 +1,6 @@
 // Create a Leaflet map
 //need to find out the currenlt location of the user and then use those coordinate
-const map = L.map('my-map').setView([48.1500327, 11.5753989], 10);
+const map = L.map('my-map').setView([37.0902, -95.7129], 4);
 // Marker to save the position of found address
 let marker;
 
@@ -102,7 +102,9 @@ function getWeather(address) {
   .then(function(data) {
       // Extract relevant weather information
       console.log(data);
-      var temperature = (data.main.temp - 273.15).toFixed(2);  // Convert Kelvin to Celsius
+      // var temperature = (data.main.temp - 273.15).toFixed(2);  // Convert Kelvin to Celsius
+      var temperature = ((data.main.temp - 273.15) * 9/5 + 32).toFixed(2);  //in Fahrenheit
+
       var description = data.weather[0].description;
       var humidity = data.main.humidity;
       var windSpeed = data.wind.speed;
@@ -110,7 +112,7 @@ function getWeather(address) {
       // Construct a nice format to display
       var weatherContent = `
           <h2>Weather in ${address}</h2>
-          <p><strong>Temperature:</strong> ${temperature}°C</p>
+          <p><strong>Temperature:</strong> ${temperature}°F</p>
           <p><strong>Description:</strong> ${description}</p>
           <p><strong>Humidity:</strong> ${humidity}%</p>
           <p><strong>Wind Speed:</strong> ${windSpeed} m/s</p>
