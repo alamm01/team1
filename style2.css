@@ -9,8 +9,8 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 15vh;  /* Adjust this value to change the height of the header */
-    background-color: #007bff;  /* Change this to your desired header background color */
+    height: 7vh;  /* Adjust this value to change the height of the header */
+    background-color: #001eff;  /* Change this to your desired header background color */
 }
 
 h1 {
