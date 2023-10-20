@@ -109,7 +109,21 @@ function displayPlace(lat, lon) {
             humData.textContent=" humidity: "+data.main.humidity +"%"
             humRow.append(humData)
             document.querySelector("#weather-table").append(cityRow,tempRow,weatherRow,humRow)
+            //Loop over the data to generate a table, each table row will have a link to the repo url
+            // for (var i = 0; i < data.length; i++) {
+            //   // Creating elements, tablerow, tabledata, and anchor
+            //   var createTableRow = document.createElement('tr');
+            //   var tableData = document.createElement('td');
+            //   var link = document.createElement('a');
 
+            //   // Setting the text of link and the href of the link
+            //   link.textContent = data[i].html_url;
+            //   link.href = data[i].html_url;
+
+            //   tableData.appendChild(link);
+            //   createTableRow.appendChild(tableData);
+            //   tableBodyWeather.appendChild(createTableRow);
+            // }
         });
 }
 
@@ -155,6 +169,24 @@ fetchPlaces.addEventListener('click', displayPlace);
 
 fetchGeocode.addEventListener('click', displayGeocode);
 
+
+
+// function geocodeAddress() {
+//   const address = document.getElementById("address").value;
+//   if (!address || address.length < 3) {
+//     console.log("The address string is too short. Enter at least three symbols");
+//     return;
+//   }
+//   myAPIKey = 'ae8fb1509dd84506babaa78221bde1bc';
+//   const geocodingUrl = `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(address)}&apiKey=${myAPIKey}`;
+
+//   // call Geocoding API - 
+//   fetch(geocodingUrl).then(result => result.json())
+//     .then(featureCollection => {
+//       console.log(featureCollection);
+//     });
+// }
+
 function geocodeAddress() {
     const address = document.getElementById("address").value;
     if (!address || address.length < 3) {
@@ -186,3 +218,13 @@ function geocodeAddress() {
         });
 }
 
+// fetch('https://api.github.com/orgs/twitter/repos')
+//   .then(function (response) {
+//     return response.json();
+//   })
+//   .then(function (data) {
+//     console.log('Twitter Repositories: Names only \n----------');
+//     for (var i = 0; i < data.length; i++) {
+//       console.log(data[i].name);
+//     }
+//   });
