@@ -175,8 +175,7 @@ function displayRecentAddresses() {
 
 // Call the function when the page loads to display any saved addresses
 displayRecentAddresses();
-=======
-}
+
 // function to log user live data
 
 function logUserData(adress) {
