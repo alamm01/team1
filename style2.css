@@ -17,6 +17,7 @@ h1 {
     color: white;  /* Text color of the header title */
     font-size: 2.5em;
     margin: 0;
+    text-shadow: 3px 3px 3px rgb(177, 187, 190), 3px 3px 3px rgb(177, 187, 177);
 }
 
 
@@ -75,7 +76,11 @@ button:hover {
 
 .status {
     text-align: center;
-    color: #2f0494;
+    color: #3744bd;
+    font-size: 20px;
+    padding-top: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
 }
 
 .recent-addresses {
