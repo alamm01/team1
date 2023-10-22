@@ -10,8 +10,7 @@ header {
     justify-content: center;
     align-items: center;
     height: 7vh;  /* Adjust this value to change the height of the header */
-    background-color: #001eff;  /* Change this to your desired header background color */
-    
+    background-color: #001eff;  /* Change this to your desired header background color */    
 }
 
 h1 {
@@ -111,18 +110,8 @@ button:hover {
     
 }
 
-#weather-info {
-    margin-top: 20px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-align: center;
-    background-color: rgb(218, 244, 247);
-    border: 5px solid rgb(64, 113, 218);
-    color: rgb(8, 80, 104);
-    outline: rgb(166, 161, 238) solid 5px;
-    outline-style: ridge;
-    border-radius: 25px;
+#weather-info { 
+    text-align: center;  
 }
 
 #my-map {
