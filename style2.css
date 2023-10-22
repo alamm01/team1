@@ -20,8 +20,16 @@ h1 {
     text-shadow: 3px 3px 3px rgb(177, 187, 190), 3px 3px 3px rgb(177, 187, 177);
 }
 
+h3 {
+    text-align: center;
+}
 
 
+ul {
+ list-style-position: inside;
+ text-align: center;
+ padding-right: 40px;
+}
 
 
 
@@ -31,6 +39,15 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.responsive {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 .main {
     max-width: 800px;
@@ -86,7 +103,6 @@ button:hover {
 .recent-addresses {
     margin-top: 20px;
     border: 5px solid rgb(64, 113, 218);
-    padding-left: 300px;
     background-color: rgb(234, 251, 253);
     color: rgb(8, 80, 104);
     outline: rgb(166, 161, 238) solid 7px;
