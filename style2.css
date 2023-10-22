@@ -11,19 +11,19 @@ header {
     align-items: center;
     height: 7vh;  /* Adjust this value to change the height of the header */
     background-color: #001eff;  /* Change this to your desired header background color */
+    
 }
 
 h1 {
     color: white;  /* Text color of the header title */
     font-size: 2.5em;
     margin: 0;
-    text-shadow: 3px 3px 3px rgb(177, 187, 190), 3px 3px 3px rgb(177, 187, 177);
+    text-shadow: 3px 3px 3px rgb(177, 187, 190), 3px 3px 3px rgb(177, 187, 190);
 }
 
 h3 {
     text-align: center;
 }
-
 
 ul {
  list-style-position: inside;
@@ -31,13 +31,12 @@ ul {
  padding-right: 40px;
 }
 
-
-
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f6f6f6;
+    background-color: white;
     margin: 0;
     padding: 0;
+    
 }
 
 .responsive {
@@ -46,8 +45,8 @@ body {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    
 }
-
 
 .main {
     max-width: 800px;
@@ -56,6 +55,7 @@ body {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    background-image: url(./background.jpg)
 }
 
 .controls {
@@ -103,10 +103,12 @@ button:hover {
 .recent-addresses {
     margin-top: 20px;
     border: 5px solid rgb(64, 113, 218);
-    background-color: rgb(234, 251, 253);
+    background-color: rgb(218, 244, 247);
     color: rgb(8, 80, 104);
-    outline: rgb(166, 161, 238) solid 7px;
+    outline: rgb(166, 161, 238) solid 5px;
     outline-style: ridge;
+    border-radius: 25px;
+    
 }
 
 #weather-info {
@@ -114,6 +116,13 @@ button:hover {
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    text-align: center;
+    background-color: rgb(218, 244, 247);
+    border: 5px solid rgb(64, 113, 218);
+    color: rgb(8, 80, 104);
+    outline: rgb(166, 161, 238) solid 5px;
+    outline-style: ridge;
+    border-radius: 25px;
 }
 
 #my-map {
