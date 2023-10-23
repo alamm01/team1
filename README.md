@@ -77,8 +77,8 @@ Now we have a list of categories. (Commericial->Store, Entertainment->Bowling, C
 
 #. Store information in the Local Storage
 
-#.
-
+#.ki
+cdv.
 9. HTML and JavaScript
 
 CSS 
