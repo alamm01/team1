@@ -8,7 +8,7 @@ Description
 
 
 User Story:
-wAs a traveler
+As a traveler
 I want to check real time weather (i.e., for the place I am interested to travel) so that I can plan my entertainment
 Benefits: plan more effcitively (e.g., weather allows me to do the kind of activites I am interested in)
 
