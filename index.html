@@ -3,82 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fetch Demo</title>
+    <title>Pet Friendly</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   </head>
   <body class="min-100-vh flex-column">
-    <header class="p-5 text-center text-white bg-primary">
-      <h1>Server-Side APIs</h1>
+    <header>
+      <h1>Pet Friendly</h1>
     </header>
-    <main class="flex-row justify-center align-center col-auto p-4 bg-light">
-      <section class="card card-rounded col-7 bg-white">
-        <header class="card-header text-center">
-          <h2 class="text-white">
-            Fetch Demo
-          </h2>
-        </header>
-        <div class="text-center pt-4">
-          <button class="btn btn-danger" id="fetch-button">
-            Click Me
-          </button>
-        </div>
-        <table class="card-body table mx-auto my-4">
-          <th>
-            <p class="my-4">Results</p>
-          </th>
-          <tbody id="repo-table" class="mx-auto text-center"></tbody>
-        </table>
 
-        <div class="text-center pt-4">
-            <button class="btn btn-danger" id="fetch-weather">
-              Get Weather
-            </button>
-        </div>
-        <table class="card-body table mx-auto my-4">
-            <th>
-              <p class="my-4">Results</p>
-            </th>
-            <tbody id="weather-table" class="mx-auto text-center"></tbody>
-        </table>
-        <div class="text-center pt-4">
-            <button class="btn btn-danger" id="fetch-places">
-              Get Weather
-            </button>
-            <button class="btn btn-danger" id="fetch-geocode">
-                Get Geocode
-            </button>
-        </div>
-        <br>
+  <div class="pets">
+       <img src="./petfinder.jpg" alt="A variety of pets" class="responsive" />
+  </div>
+
+  <div class="main">
+      <div class="controls">
         <div class="address-line">
-          <input id="address" type="text" placeholder="Enter address to search"><button onclick="geocodeAddress()">Geocode</button>
-        </div>
-        <br>
-        <br>
-
-        <div class="results">
-          <label for="name">Name:</label>          
-          <input id="name" type="text" readonly />
-          <label for="house-number">House number:</label>          
-          <input id="house-number" type="text" readonly />
-          <label for="street">Street:</label>          
-          <input id="street" type="text" readonly />
-          <label for="postcode">Postcode:</label>          
-          <input id="postcode" type="text" readonly />
-          <label for="city">City:</label>          
-          <input id="city" type="text" readonly />
-          <label for="state">State:</label>          
-          <input id="state" type="text" readonly />
-          <label for="country">Country:</label>          
-          <input id="country" type="text" readonly />
+          <input id="address" type="text" placeholder="Enter address to search"><button onclick="geocodeAddress()">Pet Friendly Places</button>
         </div>
         <div class="status">
-          <span id="status">Enter address and press "Geocode" button</span>
+          <span id="status">Welcome to Pet Friendly! With one simple click, you can easily find what you need for all your pet's needs.</span>
         </div>
-      </section>
-      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-      <script src="script.js"></script>
-      
-    </main>
-  </body>
+      </div>
+      <br>
+      <br>
+      <div class="recent-addresses">
+        <h3>Recent Addresses:</h3>
+        <ul id="recent-list"></ul>
+      </div>
+      <div id="weather-info"></div>
+      <div id="my-map"></div>
+  </div>
+
+  
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="script.js"></script>
+
+</body>
 </html>

@@ -1,188 +1,204 @@
-var tableBody = document.getElementById('repo-table');
-var fetchButton = document.getElementById('fetch-button');
+// Create a Leaflet map
+//need to find out the currenlt location of the user and then use those coordinate
+const map = L.map('my-map').setView([37.0902, -95.7129], 4);
+// Marker to save the position of found address
+let marker;
 
-var tableBodyWeather = document.getElementById('weather-table');
-var fetchWeather = document.getElementById('fetch-weather');
+const myAPIKey = "ae8fb1509dd84506babaa78221bde1bc";
 
-var fetchPlaces = document.getElementById('fetch-places');
-var fetchGeocode = document.getElementById('fetch-geocode');
+// Retina displays require different mat tiles quality
+const isRetina = L.Browser.retina;
+const baseUrl = "https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey={apiKey}";
+const retinaUrl = "https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}@2x.png?apiKey={apiKey}";
 
+// add Geoapify attribution
+map.attributionControl.setPrefix('Powered by <a href="https://www.geoapify.com/" target="_blank">Geoapify</a>')
 
-function getApi() {
-    // fetch request gets a list of all the repos for the node.js organization
-    var requestUrl = 'https://api.github.com/orgs/nodejs/repos';
-    fetch(requestUrl)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data)
-            //Loop over the data to generate a table, each table row will have a link to the repo url
-            for (var i = 0; i < data.length; i++) {
-                // Creating elements, tablerow, tabledata, and anchor
-                var createTableRow = document.createElement('tr');
-                var tableData = document.createElement('td');
-                var link = document.createElement('a');
+// Add map tiles layer. Set 20 as the maximal zoom and provide map data attribution.
+L.tileLayer(isRetina ? retinaUrl : baseUrl, {
+  attribution: '<a href="https://openmaptiles.org/" target="_blank">© OpenMapTiles</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap</a> contributors',
+  apiKey: myAPIKey,
+  maxZoom: 20,
+  id: 'osm-bright',
+}).addTo(map);
 
-                // Setting the text of link and the href of the link
-                link.textContent = data[i].html_url;
-                link.href = data[i].html_url;
-
-                // Appending the link to the tabledata and then appending the tabledata to the tablerow
-                // The tablerow then gets appended to the tablebody
-                tableData.appendChild(link);
-                createTableRow.appendChild(tableData);
-                tableBody.appendChild(createTableRow);
-            }
-        });
-}
-
-function getWeather() {
-    var apiKey = '3aff5737440b30c8e962f8a23c414db4';
-    var cityName = 'Minneapolis'
-    var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`
-    // api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-
-    fetch(requestUrl)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data)
-            //Loop over the data to generate a table, each table row will have a link to the repo url
-            for (var i = 0; i < data.length; i++) {
-                // Creating elements, tablerow, tabledata, and anchor
-                var createTableRow = document.createElement('tr');
-                var tableData = document.createElement('td');
-                var link = document.createElement('a');
-
-                // Setting the text of link and the href of the link
-                link.textContent = data[i].html_url;
-                link.href = data[i].html_url;
-
-                tableData.appendChild(link);
-                createTableRow.appendChild(tableData);
-                tableBodyWeather.appendChild(createTableRow);
-            }
-        });
-}
-
-// Function to display weather data in a nice way
-const displayWeatherData = (data) => {
-    const weatherInfo = document.getElementById('weather-info');
-    weatherInfo.innerHTML = `
-        <p>Temperature: ${Math.round(data.main.temp - 273.15)}°C</p>
-        <p>Humidity: ${data.main.humidity}%</p>
-        <p>Weather: ${data.weather[0].description}</p>
-        <p>Wind Speed: ${data.wind.speed} m/s</p>
-    `;
-};
+// move zoom controls to bottom right
+map.zoomControl.remove();
+L.control.zoom({
+  position: 'bottomright'
+}).addTo(map);
 
 
-function displayPlace(lat, lon) {
-
-    var apiKey = '3aff5737440b30c8e962f8a23c414db4';
-    var cityName = 'Minneapolis'
-    var requestUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
-    // var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`
-
-    fetch(requestUrl)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data)
-            var cityRow = document.createElement('tr');
-            var cityData = document.createElement('td');
-            cityData.textContent=data.name
-            cityRow.append(cityData)
-            var tempRow = document.createElement('tr');
-            var tempData = document.createElement('td');
-            tempData.textContent=" temp: "+data.main.temp +"F"
-            tempRow.append(tempData)
-            var weatherRow = document.createElement('tr');
-            var weatherData = document.createElement('td');
-            weatherData.textContent=" Conditions: "+data.weather[0].description
-            weatherRow.append(weatherData)
-            var humRow = document.createElement('tr');
-            var humData = document.createElement('td');
-            humData.textContent=" humidity: "+data.main.humidity +"%"
-            humRow.append(humData)
-            document.querySelector("#weather-table").append(cityRow,tempRow,weatherRow,humRow)
-
-        });
-}
-
-function displayGeocode() {
-
-    var apikey = '3aff5737440b30c8e962f8a23c414db4';
-    var cityName = 'Minneapolis';
-    var state = 'MN';
-    var countrycode = '55346';
-    var limit = 10;
-
-    // var requestUrl = `http://api.openweathermap.org/geo/1.0/direct?q={cityName},{state},{country code}&limit={limit}&appid={apikey}`
-    var requestUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${state},${countrycode}&limit=${limit}&appid=${apikey}`;
-
-    fetch(requestUrl)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data)
-            //Loop over the data to generate a table, each table row will have a link to the repo url
-            for (var i = 0; i < data.length; i++) {
-                // Creating elements, tablerow, tabledata, and anchor
-                var createTableRow = document.createElement('tr');
-                var tableData = document.createElement('td');
-                var link = document.createElement('a');
-
-                // Setting the text of link and the href of the link
-                link.textContent = data[i].html_url;
-                link.href = data[i].html_url;
-
-                tableData.appendChild(link);
-                createTableRow.appendChild(tableData);
-                tableBodyWeather.appendChild(createTableRow);
-            }
-        });
-}
-
-fetchButton.addEventListener('click', getApi);
-fetchWeather.addEventListener('click', getWeather);
-
-fetchPlaces.addEventListener('click', displayPlace);
-
-fetchGeocode.addEventListener('click', displayGeocode);
 
 function geocodeAddress() {
-    const address = document.getElementById("address").value;
-    if (!address || address.length < 3) {
-        document.getElementById("status").textContent = "The address string is too short. Enter at least three symbols";
+  const address = document.getElementById("address").value;
+  if (!address || address.length < 3) {
+    document.getElementById("status").textContent = "The address string is too short. Enter at least three symbols";
+    return;
+  }
+
+	if (marker) {
+  	marker.remove();
+  }	
+
+  const geocodingUrl = `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(address)}&apiKey=${myAPIKey}`;
+
+  // call Geocoding API - https://www.geoapify.com/geocoding-api
+  fetch(geocodingUrl).then(result => result.json())
+    .then(featureCollection => {
+      if (featureCollection.features.length === 0) {
+        document.getElementById("status").textContent = "The address is not found";
         return;
-    }
-    myAPIKey = 'ae8fb1509dd84506babaa78221bde1bc';
-    const geocodingUrl = `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(address)}&apiKey=${myAPIKey}`;
+      }
 
-    // call Geocoding API - https://www.geoapify.com/geocoding-api/
-    fetch(geocodingUrl).then(result => result.json())
-        .then(featureCollection => {
-            if (featureCollection.features.length === 0) {
-                document.getElementById("status").textContent = "The address is not found";
-                return;
-            }
-            console.log(featureCollection.features)
-            const foundAddress = featureCollection.features[0];
-            displayPlace(foundAddress.geometry.coordinates[1], foundAddress.geometry.coordinates[0])
-            document.getElementById("name").value = foundAddress.properties.name || '';
-            document.getElementById("house-number").value = foundAddress.properties.housenumber || '';
-            document.getElementById("street").value = foundAddress.properties.street || '';
-            document.getElementById("postcode").value = foundAddress.properties.postcode || '';
-            document.getElementById("city").value = foundAddress.properties.city || '';
-            document.getElementById("state").value = foundAddress.properties.state || '';
-            document.getElementById("country").value = foundAddress.properties.country || '';
+      const foundAddress = featureCollection.features[0];
+      // console.log(foundAddress.properties.address_line2);
+      var address = foundAddress.properties.address_line2;
+      getWeather(address); 
+      getPetfriendlyplace(foundAddress.geometry.coordinates[1], foundAddress.geometry.coordinates[0]);
 
-            document.getElementById("status").textContent = `Found address: ${foundAddress.properties.formatted}`;
-        });
+      document.getElementById("status").textContent = `Found address: ${foundAddress.properties.formatted}`;
+
+	  marker = L.marker(new L.LatLng(foundAddress.properties.lat, foundAddress.properties.lon)).addTo(map);
+	  map.panTo(new L.LatLng(foundAddress.properties.lat, foundAddress.properties.lon));
+
+    });
+// <<<<<<< feature/petlocations
+
+  addAddressToRecent(document.getElementById('address').value); 
 }
 
+function getPetfriendlyplace(lat, long){
+
+  fetch(`https://api.geoapify.com/v2/places?categories=pet&filter=circle:${long},${lat},5000&limit=20&apiKey=ae8fb1509dd84506babaa78221bde1bc`)
+    .then(response => response.json())
+    .then(result => {console.log(result)
+
+      var markersGroup = L.featureGroup().addTo(map);
+
+      for (var i = 0; i<result.features.length; i++){
+        marker = L.marker(new L.LatLng(result.features[i].properties.lat, result.features[i].properties.lon), {title:result.features[i].properties.name}).addTo(map)
+
+
+        var name = result.features[i].properties.name;
+        var address = result.features[i].properties.address_line2;
+        var googleMapsLink = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(address);
+
+        var popupContent = name + "<br><a href='" + googleMapsLink + "' target='_blank'>" + address + "</a>";
+
+        marker.bindPopup(popupContent);
+
+        markersGroup.addLayer(marker);
+
+      };
+
+      map.fitBounds(markersGroup.getBounds());
+    })
+    .catch(error => console.log('error', error));
+
+};
+
+function getWeather(address) {
+  var apiKey = '3aff5737440b30c8e962f8a23c414db4';
+  // var cityName = 'Minneapolis'
+  var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${address}&appid=${apiKey}`
+
+  fetch(requestUrl)
+  .then(function(response) {
+      // console.log(response.json());
+      return response.json();
+  })
+  .then(function(data) {
+      // Extract relevant weather information
+      console.log(data);
+      // var temperature = (data.main.temp - 273.15).toFixed(2);  // Convert Kelvin to Celsius
+      var temperature = ((data.main.temp - 273.15) * 9/5 + 32).toFixed(2);  //in Fahrenheit
+
+      var description = data.weather[0].description;
+      var humidity = data.main.humidity;
+      var windSpeed = data.wind.speed;
+
+      // Construct a nice format to display
+      var weatherContent = `
+          <h2>Weather in ${address}</h2>
+          <p><strong>Temperature:</strong> ${temperature}°F</p>
+          <p><strong>Description:</strong> ${description}</p>
+          <p><strong>Humidity:</strong> ${humidity}%</p>
+          <p><strong>Wind Speed:</strong> ${windSpeed} m/s</p>
+      `;
+
+      // Update the web page with the weather information
+      document.getElementById('weather-info').innerHTML = weatherContent;
+  })
+  .catch(function(error) {
+      console.log('Error fetching weather data:', error);
+  });
+
+}
+
+
+function addAddressToRecent(address) {
+  // Retrieve the recent addresses from localStorage
+  let recentAddresses = JSON.parse(localStorage.getItem('recentAddresses')) || [];
+
+  // Add the new address to the beginning
+  recentAddresses.unshift(address);
+
+  // Limit to 5 recent addresses and save back to localStorage
+  recentAddresses = recentAddresses.slice(0, 5);
+  localStorage.setItem('recentAddresses', JSON.stringify(recentAddresses));
+
+  displayRecentAddresses();
+}
+
+function displayRecentAddresses() {
+  const recentList = document.getElementById('recent-list');
+  const recentAddresses = JSON.parse(localStorage.getItem('recentAddresses')) || [];
+  
+  // Clear any existing list
+  recentList.innerHTML = '';
+
+  // Populate the list with recent addresses
+  recentAddresses.forEach(address => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.textContent = address;
+      a.href = "#";
+      a.onclick = function() {
+          document.getElementById('address').value = address;
+          geocodeAddress();
+      }
+      li.appendChild(a);
+      recentList.appendChild(li);
+  });
+}
+
+// Call the function when the page loads to display any saved addresses
+displayRecentAddresses();
+
+// function to log user live data
+
+function logUserData(adress) {
+  const logList = getElementById("log-list");
+  const logEntry = createElement("li");
+  const currentTime = new
+  Date().toLocaleString();
+  logEntry.textContent = 'Address: $ {address}, Searched at: ${currentTime}';
+  logList.appendChild(logEntry);
+
+
+
+  
+  // perform geocoding here
+
+  // log user data
+  logUserData(address);
+
+
+  // finish geocoding here
+} // attach geocodeAddress function to the button click event
+  document.querySelector("button").addEventListener("click", geocodeAddress);
+
+
+  
+// >>>>>>> main
