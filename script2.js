@@ -63,10 +63,6 @@ function geocodeAddress() {
 	  map.panTo(new L.LatLng(foundAddress.properties.lat, foundAddress.properties.lon));
 
     });
-<<<<<<< HEAD
-}
-// function to log user live data
-=======
 // <<<<<<< feature/petlocations
 
   addAddressToRecent(document.getElementById('address').value); 
@@ -182,27 +178,17 @@ displayRecentAddresses();
 
 // function to log user live data
 
->>>>>>> 60979801569101d578957be87dcc989ad021b6e1
 function logUserData(adress) {
   const logList = getElementById("log-list");
   const logEntry = createElement("li");
   const currentTime = new
   Date().toLocaleString();
-<<<<<<< HEAD
-  logEntry.textcontent = 'Address: $ {address}, Searched at: ${currentTime}';
-  logList.appendChild(logEntry);
-}
-// function to perform geocoding & log user data
-function geocodeAddress() {
-  const address = document.getElementById("address").value;
-=======
   logEntry.textContent = 'Address: $ {address}, Searched at: ${currentTime}';
   logList.appendChild(logEntry);
 
 
 
   
->>>>>>> 60979801569101d578957be87dcc989ad021b6e1
   // perform geocoding here
 
   // log user data
@@ -210,19 +196,9 @@ function geocodeAddress() {
 
 
   // finish geocoding here
-<<<<<<< HEAD
-
-  // attach geocodeAddress function to the button click event
-=======
 } // attach geocodeAddress function to the button click event
->>>>>>> 60979801569101d578957be87dcc989ad021b6e1
   document.querySelector("button").addEventListener("click", geocodeAddress);
 
 
   
-<<<<<<< HEAD
-
-}
-=======
 // >>>>>>> main
->>>>>>> 60979801569101d578957be87dcc989ad021b6e1
